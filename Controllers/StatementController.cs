@@ -32,6 +32,14 @@ namespace FOBOS_API.Controllers
         }
 
         [HttpGet]
+        [Route("Show/LastImport")]
+        public async Task<IList<Statement>> LastImport()
+        {
+            IList<Statement> statements = await statementRepository.GetStatementsActivated();
+            return statements;
+        }
+
+        [HttpGet]
         [Route("statements/ShowAll")]
         public async Task<IList<Statement>> GetStatements()
         {

@@ -12,11 +12,10 @@ namespace FOBOS_API.Models
     [Column(Name = "SQ_CODIGO")]
     public int? id { get; set; }
     [Column(Name = "BL_ATIVO")]
-    public bool ativo { get; set; }
+    public bool? ativo { get; set; }
     [Column(Name = "DT_CREATED_AT")]
-    public DateTime? createdAt { get; set; } = DateTime.Now;
+    public DateTime? createdAt { get; set; }
     [Column(Name = "DT_UPDATED_AT")]
     public DateTime? updatedAt { get; set; }
-    public virtual DateTime now { get; set; } = DateTime.Now;
     }
 }

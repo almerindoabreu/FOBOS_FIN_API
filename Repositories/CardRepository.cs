@@ -39,7 +39,7 @@ namespace FOBOS_API.Repositories
                 string sql = @"SELECT * FROM FOBO_TB_CARDS c"
                             + " JOIN FOBO_TB_BANKS b"
                             + " ON b.BANK_SQ_CODIGO = c.CARD_FK_BANK_CODIGO"
-                             + " JOIN FOBO_TB_USER u"
+                             + " JOIN FOBO_TB_USERS u"
                             + " ON u.USER_SQ_CODIGO = c.CARD_FK_USER_CODIGO"
                             + " WHERE c.CARD_SQ_CODIGO = @id";
 
@@ -62,6 +62,39 @@ namespace FOBOS_API.Repositories
                 Console.WriteLine(e);
                 throw new NotImplementedException();
             }
+        }    
+        
+        public async Task<Card> GetCardByBankName(string name)
+        {
+            try
+            {
+                db.AbrirConexao();
+                string sql = @"SELECT * FROM FOBO_TB_CARDS c"
+                            + " JOIN FOBO_TB_BANKS b"
+                            + " ON b.BANK_SQ_CODIGO = c.CARD_FK_BANK_CODIGO"
+                             + " JOIN FOBO_TB_USERS u"
+                            + " ON u.USER_SQ_CODIGO = c.CARD_FK_USER_CODIGO"
+                            + " WHERE b.BANK_NM_NAME = @name";
+
+                Card card = (await db.getSQLConnection().QueryAsync<Card, Bank, User, Card>(sql,
+                    (c, b, u) =>
+                    {
+                        c.Bank = b;
+                        c.User = u;
+                        return c;
+                    }, 
+                    splitOn: "CARD_SQ_CODIGO,BANK_SQ_CODIGO,USER_SQ_CODIGO",
+                    param: new {name = name })).First();
+
+                db.FecharConexao();
+                return card;
+            }
+            catch (Exception e)
+            {
+                db.FecharConexao();
+                Console.WriteLine(e);
+                throw new NotImplementedException();
+            }
         }
 
         public async Task<IList<Card>> GetCardsActivated()
@@ -73,7 +106,7 @@ namespace FOBOS_API.Repositories
                 string sql = @"SELECT * FROM FOBO_TB_CARDS c"
                             + " JOIN FOBO_TB_BANKS b"
                             + " ON b.BANK_SQ_CODIGO = c.CARD_FK_BANK_CODIGO"
-                            + " JOIN FOBO_TB_USER u"
+                            + " JOIN FOBO_TB_USERS u"
                             + " ON u.USER_SQ_CODIGO = c.CARD_FK_USER_CODIGO"
                             + " WHERE c.CARD_BL_ATIVO = 1 ";
 
@@ -132,19 +165,13 @@ namespace FOBOS_API.Repositories
                                 + " CARD_CD_AGENCY,"
                                 + " CARD_CD_ACCOUNT,"
                                 + " CARD_FK_BANK_CODIGO,"
-                                + " CARD_FK_USER_CODIGO,"
-                                + " CARD_DT_CREATED_AT,"
-                                + " CARD_DT_UPDATED_AT,"
-                                + " CARD_BL_ATIVO"
+                                + " CARD_FK_USER_CODIGO"
                             + " ) VALUES ("
                                 + " @name, "
                                 + " @agency, "
                                 + " @account, "
                                 + " @fkBank, "
-                                + " @fkUser, "
-                                + " @createdAt,"
-                                + " @now,"
-                                + " 1 "
+                                + " @fkUser "
                             + " )";
 
                 await db.getSQLConnection().ExecuteAsync(sql, card);

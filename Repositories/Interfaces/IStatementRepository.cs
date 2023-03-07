@@ -8,8 +8,8 @@ namespace FOBOS_API.Repositories.Interfaces
 {
     public interface IStatementRepository
     {
-        Task SaveStatement(Statement Statement);
-        void BulkStatement(List<Statement> Statements);
+        Task<bool> SaveStatement(Statement Statement);
+        Task BulkStatement(IList<Statement> Statements);
         Task<IList<Statement>> GetStatements();
         Task<IList<Statement>> GetStatementsActivated();
         Task<IList<Statement>> GetStatements(string Category, string monthly);

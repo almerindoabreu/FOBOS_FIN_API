@@ -42,7 +42,7 @@ namespace FOBOS_API
             services.AddTransient<IStatementRepository, StatementRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IGoalRepository, GoalRepository>();
-
+            services.AddTransient<IStatementRepository, StatementRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +65,10 @@ namespace FOBOS_API
             {
                 endpoints.MapControllers();
             });
+
+            // setup app's root folders
+            AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);
+            AppDomain.CurrentDomain.SetData("WebRootPath", env.WebRootPath);
         }
 
 

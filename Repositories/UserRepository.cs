@@ -17,7 +17,7 @@ namespace FOBOS_API.Repositories
             try
             {
                 db.AbrirConexao();
-                string sql = @"SELECT * FROM FOBO_TB_USER";
+                string sql = @"SELECT * FROM FOBO_TB_USERS";
 
                 IList<User> users = (await db.getSQLConnection().QueryAsync<User>(sql)).ToList();
 
@@ -37,7 +37,7 @@ namespace FOBOS_API.Repositories
             try
             {
                 db.AbrirConexao();
-                string sql = @"SELECT * FROM FOBO_TB_USER" +
+                string sql = @"SELECT * FROM FOBO_TB_USERS" +
                             " WHERE USER_SQ_CODIGO = @id";
 
                 User user = await db.getSQLConnection().QueryFirstOrDefaultAsync<User>(sql, new { id = id });
@@ -59,7 +59,7 @@ namespace FOBOS_API.Repositories
             try
             {
                 db.AbrirConexao();
-                string sql = @"SELECT * FROM FOBO_TB_USER"
+                string sql = @"SELECT * FROM FOBO_TB_USERS"
                              + " WHERE USER_BL_ATIVO = 1";
 
                 IList<User> users = (await db.getSQLConnection().QueryAsync<User>(sql)).ToList();
@@ -106,7 +106,7 @@ namespace FOBOS_API.Repositories
 
             try
             {
-                string sql = @" INSERT INTO FOBO_TB_USER "
+                string sql = @" INSERT INTO FOBO_TB_USERS "
                             + "("
                                 + " USER_NM_NAME,"
                                 + " USER_DT_CREATED_AT,"
@@ -135,7 +135,7 @@ namespace FOBOS_API.Repositories
 
             try
             {
-                string sql = @" UPDATE FOBO_TB_USER SET"
+                string sql = @" UPDATE FOBO_TB_USERS SET"
                                 + " USER_NM_NAME = @name, "
                                 + " USER_DT_CREATED_AT = @createdAt,"
                                 + " USER_DT_UPDATED_AT = @now,"

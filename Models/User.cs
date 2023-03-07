@@ -8,7 +8,7 @@ using FOBOS_API.Data;
 
 namespace FOBOS_API.Models
 {
-  [Annotation.Table("FOBO_TB_USER")]
+  [Annotation.Table("FOBO_TB_USERS")]
   public class User : _BaseModel
   {
     [Column(Name="NM_NAME")]

@@ -14,20 +14,26 @@ namespace FOBOS_API.Models
     public string name { get; set; } = "";
     [Column(Name="STAT_NR_VALUE")]
     public decimal value { get; set; }
-    [Column(Name="STAT_DS_DESCRIPTION")]
+    [Column(Name="STAT_NR_BALANCE")]
+    public decimal balance { get; set; }
+    [Column(Name="STAT_DS_DESCRIPTION")]    
     public string description { get; set; }
     [Column(Name="STAT_DT_DATE")]
     public DateTime date { get; set; }
 
-    [Column(Name="CATY_FK_CARD_CODIGO")]
+    [Column(Name= "STAT_FK_CARD_CODIGO")]
 
     public int fkCard { get; set; }
-    [Column(Name="CATY_FK_CATE_CODIGO")]
+    [Column(Name="STAT_FK_CATE_CODIGO")]
     public int? fkCategory { get; set; }
 
     public virtual Card Card { get; set; }
     public virtual Category Category { get; set; }
 
+    public Statement()
+        {
+
+        }
     public Statement(string _name, decimal _value, string _description, DateTime _date, int _fkCard)
     {
       name = _name;
@@ -46,9 +52,5 @@ namespace FOBOS_API.Models
     {
       Category = category;
     }
-    Statement()
-    {
-    }
-
   }
 }

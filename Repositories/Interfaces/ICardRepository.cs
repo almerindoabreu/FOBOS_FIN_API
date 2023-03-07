@@ -11,6 +11,7 @@ namespace FOBOS_API.Repositories.Interfaces
         Task<IList<Card>> GetCards();
         Task<IList<Card>> GetCardsActivated(); 
          Task<Card> GetCard(int id);
+         Task<Card> GetCardByBankName(string name);
         Task SaveCard(Card Cards);
     }
 }
