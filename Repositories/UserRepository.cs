@@ -103,20 +103,13 @@ namespace FOBOS_API.Repositories
 
         private async Task Insert(User user)
         {
-
             try
             {
                 string sql = @" INSERT INTO FOBO_TB_USERS "
                             + "("
-                                + " USER_NM_NAME,"
-                                + " USER_DT_CREATED_AT,"
-                                + " USER_DT_UPDATED_AT,"
-                                + " USER_BL_ATIVO"
+                                + " USER_NM_NAME"
                             + " ) VALUES ("
-                                + " @name, "
-                                + " @createdAt,"
-                                + " @now,"
-                                + " 1 "
+                                + " @name "
                             + " )";
 
                 await db.getSQLConnection().ExecuteAsync(sql, user);
@@ -136,10 +129,7 @@ namespace FOBOS_API.Repositories
             try
             {
                 string sql = @" UPDATE FOBO_TB_USERS SET"
-                                + " USER_NM_NAME = @name, "
-                                + " USER_DT_CREATED_AT = @createdAt,"
-                                + " USER_DT_UPDATED_AT = @now,"
-                                + " USER_BL_ATIVO = @ativo"
+                                + " USER_NM_NAME = @name "
                                 + " WHERE USER_SQ_CODIGO = @id";
 
                 await db.getSQLConnection().ExecuteAsync(sql, user);

@@ -41,6 +41,14 @@ namespace FOBOS_API.Controllers
         }
 
         [HttpGet]
+        [Route("categories/categoryType/{categotyTypeId}")]
+        public async Task<IList<Category>> GetCategories([FromRoute] int categotyTypeId)
+        {
+            IList<Category> categories = await categoryRepository.GetCategoriesByCategoryType(categotyTypeId);
+            return categories;
+        }
+
+        [HttpGet]
         [Route("categories/{id}")]
         public async Task<Category> GetCategory([FromRoute] int id)
         {

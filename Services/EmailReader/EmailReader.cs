@@ -74,9 +74,9 @@ namespace FOBOS_API.Services.EmailReader
                             statement.date = Convert.ToDateTime(values[0]);
                             statement.name = values[1];
                             var s = values[2].Split("R$ ")[0];
-                            decimal value = (values[2].Split("R$ ")[0] == " - " ?
-                                Convert.ToDecimal(values[2].Split("R$ ")[1]) * -1 :
-                                Convert.ToDecimal(values[2].Split("R$ ")[1]));
+                            decimal value = (values[2].Split("R$ ")[0].Contains("-")?
+                                Convert.ToDecimal(values[2].Split("R$ ")[0]) * -1 :
+                                Convert.ToDecimal(values[2].Split("R$ ")[0]));
                             statement.value = value;
                             statement.balance = Convert.ToDecimal(values[3]);
 

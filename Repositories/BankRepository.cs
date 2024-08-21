@@ -105,15 +105,9 @@ namespace FOBOS_API.Repositories
             try { 
             string sql = @" INSERT INTO FOBO_TB_BANKS "
                         + "("
-                            + " BANK_NM_NAME,"
-                            + " BANK_DT_CREATED_AT,"
-                            + " BANK_DT_UPDATED_AT,"
-                            + " BANK_BL_ATIVO"
+                            + " BANK_NM_NAME"
                         + " ) VALUES ("
-                            + " @name, "
-                            + " @createdAt,"
-                            + " @now,"
-                            + " 1 "
+                            + " @name "
                         + " )";
 
             await db.getSQLConnection().ExecuteAsync(sql, bank);
@@ -132,10 +126,7 @@ namespace FOBOS_API.Repositories
             try
             {
                 string sql = @" UPDATE FOBO_TB_BANKS SET"
-                                + " BANK_NM_NAME = @name, "
-                                + " BANK_DT_CREATED_AT = @createdAt,"
-                                + " BANK_DT_UPDATED_AT = @now,"
-                                + " BANK_BL_ATIVO = @ativo"
+                                + " BANK_NM_NAME = @name "
                                 + " WHERE BANK_SQ_CODIGO = @id";
 
                 await db.getSQLConnection().ExecuteAsync(sql, bank);

@@ -12,6 +12,7 @@ namespace FOBOS_API.Repositories.Interfaces
         Task BulkStatement(IList<Statement> Statements);
         Task<IList<Statement>> GetStatements();
         Task<IList<Statement>> GetStatementsActivated();
+        Task<IList<Statement>> GetStatementsActivatedByGroupDate();
         Task<IList<Statement>> GetStatements(string Category, string monthly);
         Task<IList<Statement>> GetStatements(string Category, DateTime start, DateTime end);
         Task<dynamic> GetSumValuesCategories(DateTime start, DateTime end);

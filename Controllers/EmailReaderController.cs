@@ -25,39 +25,31 @@ namespace FOBOS_API.Controllers
                 993,
                 true,
                 "controle.gasto.alcl@gmail.com",
-                "zylumrqitygtjwgg");
+                "TOKEN");
             this.statementRepository = statementReposiory;
             this.cardRepository = cardRepository;
         }
 
-        [HttpGet]
-        [Route("email/helloWord")]
-        public async Task helloWord()
-        {
-            TelegramSender telegramSender = new TelegramSender();
-
-            await telegramSender.sendMenssage("", "");
-        }
             
         [HttpGet]
         [Route("email/showAll")]
         public async Task<string> VerifyAllEmail()
         {
             try { 
-            Card cardInter = await cardRepository.GetCardByBankName("Inter");
-            Card cardNubank = await cardRepository.GetCardByBankName("Nubank");
-            emailReader.DownloadAttachment();
-            IList<Statement> statements = emailReader.ReadAttachment((int)cardInter.id, (int)cardNubank.id);
-            //await statementRepository.BulkStatement(statements);
+                Card cardInter = await cardRepository.GetCardByBankName("Inter");
+                Card cardNubank = await cardRepository.GetCardByBankName("Nubank");
+                emailReader.DownloadAttachment();
+                IList<Statement> statements = emailReader.ReadAttachment((int)cardInter.id, (int)cardNubank.id);
+                //await statementRepository.BulkStatement(statements);
 
-            int i = 0;
-            foreach (Statement statement in statements)
-            {
-                bool isSaved = await statementRepository.SaveStatement(statement);
-                i = (isSaved ? i + 1 : i);
-            }
+                int i = 0;
+                foreach (Statement statement in statements)
+                {
+                    bool isSaved = await statementRepository.SaveStatement(statement);
+                    i = (isSaved ? i + 1 : i);
+                }
 
-            return "Foram registrados " + i + " novas movimentações do extrato.";
+                return "Foram registrados " + i + " novas movimentações do extrato.";
             }
             catch(Exception ex)
             {

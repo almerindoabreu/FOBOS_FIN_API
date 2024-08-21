@@ -59,6 +59,36 @@ namespace FOBOS_API.Repositories
             }
         }
 
+        public async Task<IList<Category>> GetCategoriesByCategoryType(int id)
+        {
+            try
+            {
+                db.AbrirConexao();
+                string sql = @"SELECT * FROM FOBO_TB_CATEGORIES c"
+                            + " JOIN FOBO_TB_CATEGORY_TYPES ct"
+                            + " ON c.CATE_FK_CATY_CODIGO = ct.CATY_SQ_CODIGO"
+                            + " WHERE c.CATE_FK_CATY_CODIGO = @id";
+
+                IList<Category> categories = (await db.getSQLConnection().QueryAsync<Category, CategoryType, Category>(sql,
+                    (c, ct) =>
+                    {
+                        c.CategoryType = ct;
+                        return c;
+                    },
+                    splitOn: "CATE_SQ_CODIGO,CATY_SQ_CODIGO",
+                    param: new { id = id })).ToList();
+
+                db.FecharConexao();
+                return categories;
+            }
+            catch (Exception e)
+            {
+                db.FecharConexao();
+                Console.WriteLine(e);
+                throw new NotImplementedException();
+            }
+        }
+
         public async Task<Category> GetCategory(int id)
         {
             try
@@ -122,16 +152,10 @@ namespace FOBOS_API.Repositories
                 string sql = @" INSERT INTO FOBO_TB_CATEGORIES "
                             + "("
                                 + " CATE_NM_NAME,"
-                                + " CATE_FK_CATY_CODIGO,"
-                                + " CATE_DT_CREATED_AT,"
-                                + " CATE_DT_UPDATED_AT,"
-                                + " CATE_BL_ATIVO"
+                                + " CATE_FK_CATY_CODIGO"
                             + " ) VALUES ("
                                 + " @name, "
-                                + " @fkCategoryType, "
-                                + " @createdAt,"
-                                + " @now,"
-                                + " 1 "
+                                + " @fkCategoryType "
                             + " )";
 
                 await db.getSQLConnection().ExecuteAsync(sql, category);
@@ -153,8 +177,6 @@ namespace FOBOS_API.Repositories
                 string sql = @" UPDATE FOBO_TB_CATEGORIES SET"
                                 + " CATE_NM_NAME = @name, "
                                 + " CATE_FK_CATY_CODIGO = @fkCategoryType, "
-                                + " CATE_DT_CREATED_AT = @createdAt,"
-                                + " CATE_DT_UPDATED_AT = @now,"
                                 + " CATE_BL_ATIVO = @ativo"
                                 + " WHERE CATE_SQ_CODIGO = @id";
 

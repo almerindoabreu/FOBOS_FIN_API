@@ -10,21 +10,21 @@ namespace FOBOS_API.Models
   [Annotation.Table("FOBO_TB_STATEMENTS")]
   public class Statement : _BaseModel
   {
-    [Column(Name="STAT_NM_NAME")]
+    [Column(Name="NM_NAME")]
     public string name { get; set; } = "";
-    [Column(Name="STAT_NR_VALUE")]
+    [Column(Name="NR_VALUE")]
     public decimal value { get; set; }
-    [Column(Name="STAT_NR_BALANCE")]
+    [Column(Name="NR_BALANCE")]
     public decimal balance { get; set; }
-    [Column(Name="STAT_DS_DESCRIPTION")]    
+    [Column(Name="DS_DESCRIPTION")]    
     public string description { get; set; }
-    [Column(Name="STAT_DT_DATE")]
+    [Column(Name="DT_DATE")]
     public DateTime date { get; set; }
 
-    [Column(Name= "STAT_FK_CARD_CODIGO")]
+    [Column(Name= "FK_CARD_CODIGO")]
 
     public int fkCard { get; set; }
-    [Column(Name="STAT_FK_CATE_CODIGO")]
+    [Column(Name="FK_CATE_CODIGO")]
     public int? fkCategory { get; set; }
 
     public virtual Card Card { get; set; }

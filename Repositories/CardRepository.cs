@@ -194,8 +194,6 @@ namespace FOBOS_API.Repositories
                                 + " CARD_CD_ACCOUNT = @account, "
                                 + " CARD_FK_BANK_CODIGO = @fkBank, "
                                 + " CARD_FK_USER_CODIGO = @fkUser, "
-                                + " CARD_DT_CREATED_AT = @createdAt,"
-                                + " CARD_DT_UPDATED_AT = @now,"
                                 + " CARD_BL_ATIVO = @ativo"
                                 + " WHERE CARD_SQ_CODIGO = @id";
 

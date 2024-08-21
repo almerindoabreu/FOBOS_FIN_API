@@ -11,6 +11,7 @@ namespace FOBOS_API.Repositories.Interfaces
         Task<IList<Category>> GetCategories();
         Task<IList<Category>> GetCategoriesActivated();
         Task<Category> GetCategory(int id);
+        Task<IList<Category>> GetCategoriesByCategoryType(int id);
         Task SaveCategory(Category Categorys);
     }
 }

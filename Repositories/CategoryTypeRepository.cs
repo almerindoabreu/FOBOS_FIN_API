@@ -109,16 +109,10 @@ namespace FOBOS_API.Repositories
                 string sql = @" INSERT INTO FOBO_TB_CATEGORY_TYPES "
                             + "("
                                 + " CATY_NM_NAME,"
-                                + " CATY_TP_STATEMENT,"
-                                + " CATY_DT_CREATED_AT,"
-                                + " CATY_DT_UPDATED_AT,"
-                                + " CATY_BL_ATIVO"
+                                + " CATY_TP_STATEMENT"
                             + " ) VALUES ("
                                 + " @name, "
-                                + " @typeStatement, "
-                                + " @createdAt,"
-                                + " @now,"
-                                + " 1 "
+                                + " @typeStatement "
                             + " )";
 
                 await db.getSQLConnection().ExecuteAsync(sql, categoryType);
@@ -140,8 +134,6 @@ namespace FOBOS_API.Repositories
                 string sql = @" UPDATE FOBO_TB_CATEGORY_TYPES SET"
                                 + " CATY_NM_NAME = @name, "
                                 + " CATY_TP_STATEMENT = @typeStatement, "
-                                + " CATY_DT_CREATED_AT = @createdAt,"
-                                + " CATY_DT_UPDATED_AT = @now,"
                                 + " CATY_BL_ATIVO = @ativo"
                                 + " WHERE CATY_SQ_CODIGO = @id";
 

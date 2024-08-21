@@ -32,6 +32,45 @@ namespace FOBOS_API.Controllers
         }
 
         [HttpGet]
+        [Route("statementsGroupByDate")]
+        public async Task<IList<StatementsGroupDate>> GetStatementsGroupByDate()
+        {
+            IList<Statement> statements = await statementRepository.GetStatementsActivated();
+
+            StatementsGroupDate statementsGroup = new StatementsGroupDate();
+            IList<StatementsGroupDate> statementsGroupList = new List<StatementsGroupDate>();
+            DateTime statementDate = new DateTime();
+
+            IList<Statement> statementsList = new List<Statement>();
+
+            int i = 0;
+            foreach (Statement statement in statements)
+            {
+                if (statement.date != statementDate)
+                {
+                    if (i > 0)
+                    {
+                        statementsGroup.statements = statementsList;
+                        statementsGroupList.Add(statementsGroup);
+                        statementsGroup = new StatementsGroupDate();
+                        statementsList = new List<Statement>();
+                    }
+                    statementDate = statement.date;
+                    statementsGroup.dateRef = statement.date;
+                    statementsList.Add(statement);
+
+                }
+                else
+                {
+                    statementsList.Add(statement);
+                }
+                i++;
+            }
+
+            return statementsGroupList;
+        }
+
+        [HttpGet]
         [Route("Show/LastImport")]
         public async Task<IList<Statement>> LastImport()
         {
@@ -70,6 +109,12 @@ namespace FOBOS_API.Controllers
             statement.ativo = false;
 
             await statementRepository.SaveStatement(statement);
+        }
+
+        public class StatementsGroupDate
+        {
+            public DateTime dateRef { get; set; }
+            public IList<Statement> statements { get; set; }
         }
     }
 }

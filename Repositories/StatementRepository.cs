@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Dapper;
 using Z.Dapper.Plus;
+using Google.Protobuf.WellKnownTypes;
 
 namespace FOBOS_API.Repositories
 {
     public class StatementRepository : _BaseRepository, IStatementRepository
     {
-        public async Task BulkStatement(IList<Statement> Statements)
+
+
+            public async Task BulkStatement(IList<Statement> Statements)
         {
             try
             {
@@ -87,7 +90,29 @@ namespace FOBOS_API.Repositories
             {
                 db.AbrirConexao();
                 string sql = @"SELECT * FROM FOBO_TB_STATEMENTS " +
-                              " STAT_BL_ATIVO = 1";
+                              " WHERE STAT_BL_ATIVO = 1" +
+                              " ORDER BY STAT_DT_DATE DESC";
+                IList<Statement> statements = (await db.getSQLConnection().QueryAsync<Statement>(sql)).ToList();
+
+                db.FecharConexao();
+                return statements;
+            }
+            catch (Exception e)
+            {
+                db.FecharConexao();
+                Console.WriteLine(e);
+                throw new NotImplementedException();
+            }
+        }
+
+        public async Task<IList<Statement>> GetStatementsActivatedByGroupDate()
+        {
+            try
+            {
+                db.AbrirConexao();
+                string sql = @"SELECT * FROM FOBO_TB_STATEMENTS " +
+                              " WHERE STAT_BL_ATIVO = 1" +
+                              " ORDER BY STAT_DT_DATE";
                 IList<Statement> statements = (await db.getSQLConnection().QueryAsync<Statement>(sql)).ToList();
 
                 db.FecharConexao();
@@ -165,13 +190,15 @@ namespace FOBOS_API.Repositories
                                 + " STAT_DS_DESCRIPTION,"
                                 + " STAT_NR_VALUE,"
                                 + " STAT_DT_DATE,"
-                                + " STAT_NR_BALANCE"
+                                + " STAT_NR_BALANCE,"
+                                + " STAT_FK_CARD_CODIGO"
                             + " ) VALUES ("
                                 + " @name, "
                                 + " @description,"
                                 + " @value,"
                                 + " @date,"
-                                + " @balance"
+                                + " @balance,"
+                                + " @fkCard"
                             + " )";
 
                 await db.getSQLConnection().ExecuteAsync(sql, statement);
@@ -193,9 +220,11 @@ namespace FOBOS_API.Repositories
                                 + " STAT_NM_NAME = @name, "
                                 + " STAT_DT_DATE = @date,"
                                 + " STAT_NR_VALUE = @value,"
-                                + " STAT_NR_BALANCE = @balacen,"
+                                + " STAT_FK_CARD_CODIGO = @fkCard,"
+                                + " STAT_FK_CATE_CODIGO = @fkCategory,"
+                                + " STAT_NR_BALANCE = @balance,"
                                 + " STAT_DS_DESCRIPTION = @description"
-                                + " WHERE BANK_SQ_CODIGO = @id";
+                                + " WHERE STAT_SQ_CODIGO = @id";
 
                 await db.getSQLConnection().ExecuteAsync(sql, statement);
 
